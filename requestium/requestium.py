@@ -24,12 +24,12 @@ class Session(requests.Session):
     Some useful helper methods and object wrappings have been added.
     """
 
-    def __init__(self, webdriver_path, browser, default_timeout=5, webdriver_options={}):
+    def __init__(self, driver, browser='chrome', default_timeout=5, webdriver_options={}):
         super(Session, self).__init__()
-        self.webdriver_path = webdriver_path
+        #self.webdriver_path = webdriver_path
         self.default_timeout = default_timeout
         self.webdriver_options = webdriver_options
-        self._driver = None
+        self._driver = driver
         self._last_requests_url = None
 
         if browser == 'phantomjs':
@@ -91,8 +91,7 @@ class Session(requests.Session):
                     type(self.webdriver_options['arguments'])))
 
         # Create driver process
-        return RequestiumChrome(self.webdriver_path,
-                                chrome_options=chrome_options,
+        return RequestiumChrome(chrome_options=chrome_options,
                                 default_timeout=self.default_timeout)
 
     def transfer_session_cookies_to_driver(self, domain=None):
